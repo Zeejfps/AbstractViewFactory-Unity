@@ -1,4 +1,7 @@
-﻿public interface IView<TModel>
+﻿namespace EnvDev
 {
-    void Init(TModel model);
+    public interface IView<TModel>
+    {
+        void Init(TModel model);
+    }
 }

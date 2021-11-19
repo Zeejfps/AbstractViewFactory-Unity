@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace _Project.InventorySystem.Scripts.Editor
+namespace EnvDev
 {
     public static class ReflectionUtils
     {
