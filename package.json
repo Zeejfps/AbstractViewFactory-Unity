@@ -1,0 +1,15 @@
+{
+  "name": "com.envdev.abstractviewfactory",
+  "version": "1.0.0",
+  "displayName": "Abstract View Factory",
+  "description": "Provides an abstract view factory that can be extended to create custom view factories.",
+  "keywords": [
+    "View",
+    "Factory"
+  ],
+  "author": {
+    "name": "Evgeny Vasilyev",
+    "email": "zeejfps@gmail.com",
+    "url": "https://www.evasilyev.com"
+  }
+}
