@@ -14,15 +14,14 @@ namespace EnvDev
         public abstract GameObject CreateView<T>(Vector3 position, Quaternion rotation, Transform parent);
     }
 
-    public abstract class ViewFactory<TModel, TView> : ViewFactory
-        where TView : MonoBehaviour, IView<TModel>
+    public abstract class ViewFactory<TModel> : ViewFactory
     {
         public override Type ModelType => typeof(TModel);
 
         [SerializeField] List<string> m_Types = new List<string>();
-        [SerializeField] List<TView> m_Prefabs = new List<TView>();
+        [SerializeField] List<GameObject> m_Prefabs = new List<GameObject>();
 
-        readonly Dictionary<Type, TView> m_TypeToViewPrefabMap = new Dictionary<Type, TView>();
+        readonly Dictionary<Type, GameObject> m_TypeToViewPrefabMap = new Dictionary<Type, GameObject>();
 
         void OnEnable()
         {
@@ -59,13 +58,13 @@ namespace EnvDev
         public override GameObject CreateView<T>(Transform parent)
         {
             var prefab = GetViewPrefab(typeof(T));
-            return Instantiate(prefab, parent).gameObject;
+            return Instantiate(prefab, parent);
         }
 
         public override GameObject CreateView<T>(Vector3 position, Quaternion rotation)
         {
             var prefab = GetViewPrefab(typeof(T));
-            return Instantiate(prefab, position, rotation).gameObject;
+            return Instantiate(prefab, position, rotation);
         }
 
         public override GameObject CreateView<T>(Vector3 position, Quaternion rotation, Transform parent)
@@ -74,45 +73,13 @@ namespace EnvDev
             return Instantiate(prefab, position, rotation, parent).gameObject;
         }
 
-        public TView CreateView(TModel item)
-        {
-            var prefab = GetViewPrefab(item);
-            var view = Instantiate(prefab);
-            view.Init(item);
-            return view;
-        }
-
-        public TView CreateView(TModel item, Transform parent)
-        {
-            var prefab = GetViewPrefab(item);
-            var view = Instantiate(prefab, parent);
-            view.Init(item);
-            return view;
-        }
-
-        public TView CreateView(TModel item, Vector3 position, Quaternion rotation)
-        {
-            var prefab = GetViewPrefab(item);
-            var view = Instantiate(prefab, position, rotation);
-            view.Init(item);
-            return view;
-        }
-
-        public TView CreateView(TModel item, Vector3 position, Quaternion rotation, Transform parent)
-        {
-            var prefab = GetViewPrefab(item);
-            var view = Instantiate(prefab, position, rotation, parent);
-            view.Init(item);
-            return view;
-        }
-
-        TView GetViewPrefab(TModel key)
+        GameObject GetViewPrefab(TModel key)
         {
             var type = key.GetType();
             return GetViewPrefab(type);
         }
 
-        TView GetViewPrefab(Type type)
+        GameObject GetViewPrefab(Type type)
         {
             return m_TypeToViewPrefabMap[type];
         }
