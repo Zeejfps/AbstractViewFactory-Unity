@@ -8,10 +8,10 @@ namespace EnvDev
     {
         public abstract Type ModelType { get; }
 
-        public abstract GameObject CreateView(Type type);
-        public abstract GameObject CreateView(Type type, Transform parent);
-        public abstract GameObject CreateView(Type type, Vector3 position, Quaternion rotation);
-        public abstract GameObject CreateView(Type type, Vector3 position, Quaternion rotation, Transform parent);
+        public abstract GameObject CreateView<T>(T model);
+        public abstract GameObject CreateView<T>(T model, Transform parent);
+        public abstract GameObject CreateView<T>(T model, Vector3 position, Quaternion rotation);
+        public abstract GameObject CreateView<T>(T model, Vector3 position, Quaternion rotation, Transform parent);
     }
 
     public abstract class ViewFactory<TModel> : ViewFactory
@@ -49,27 +49,27 @@ namespace EnvDev
             }
         }
 
-        public override GameObject CreateView(Type type)
+        public override GameObject CreateView<T>(T model)
         {
-            var prefab = GetViewPrefab(type);
+            var prefab = GetViewPrefab(model.GetType());
             return Instantiate(prefab).gameObject;
         }
 
-        public override GameObject CreateView(Type type, Transform parent)
+        public override GameObject CreateView<T>(T model, Transform parent)
         {
-            var prefab = GetViewPrefab(type);
+            var prefab = GetViewPrefab(model.GetType());
             return Instantiate(prefab, parent);
         }
 
-        public override GameObject CreateView(Type type, Vector3 position, Quaternion rotation)
+        public override GameObject CreateView<T>(T model, Vector3 position, Quaternion rotation)
         {
-            var prefab = GetViewPrefab(type);
+            var prefab = GetViewPrefab(model.GetType());
             return Instantiate(prefab, position, rotation);
         }
 
-        public override GameObject CreateView(Type type, Vector3 position, Quaternion rotation, Transform parent)
+        public override GameObject CreateView<T>(T model, Vector3 position, Quaternion rotation, Transform parent)
         {
-            var prefab = GetViewPrefab(type);
+            var prefab = GetViewPrefab(model.GetType());
             return Instantiate(prefab, position, rotation, parent).gameObject;
         }
 
