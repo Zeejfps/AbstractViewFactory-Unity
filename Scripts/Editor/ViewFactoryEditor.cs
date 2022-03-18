@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace EnvDev
 {
-   [CustomEditor(typeof(AbstractViewFactory), true)]
-   public class AbstractViewFactoryEditor : Editor
+   [CustomEditor(typeof(ViewFactory), true)]
+   public class ViewFactoryEditor : Editor
    {
       const string k_TypesPropertyName = "m_Types";
       const string k_PrefabsPropertyName = "m_Prefabs";
@@ -17,7 +17,7 @@ namespace EnvDev
 
       void OnEnable()
       {
-         var dataTable = (AbstractViewFactory)target;
+         var dataTable = (ViewFactory)target;
          m_TypesProperty = serializedObject.FindProperty(k_TypesPropertyName);
          m_PrefabsProperty = serializedObject.FindProperty(k_PrefabsPropertyName);
          m_Types = ReflectionUtils.FindAllTypesThatExtend(dataTable.ModelType);

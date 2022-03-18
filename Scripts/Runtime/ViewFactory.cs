@@ -4,12 +4,17 @@ using UnityEngine;
 
 namespace EnvDev
 {
-    public abstract class AbstractViewFactory : ScriptableObject
+    public abstract class ViewFactory : ScriptableObject
     {
         public abstract Type ModelType { get; }
+
+        public abstract GameObject CreateView<T>();
+        public abstract GameObject CreateView<T>(Transform parent);
+        public abstract GameObject CreateView<T>(Vector3 position, Quaternion rotation);
+        public abstract GameObject CreateView<T>(Vector3 position, Quaternion rotation, Transform parent);
     }
 
-    public abstract class AbstractViewFactory<TModel, TView> : AbstractViewFactory
+    public abstract class ViewFactory<TModel, TView> : ViewFactory
         where TView : MonoBehaviour, IView<TModel>
     {
         public override Type ModelType => typeof(TModel);
@@ -34,15 +39,39 @@ namespace EnvDev
                 }
 
                 var data = m_Prefabs[i];
-                try
+                if (!m_TypeToViewPrefabMap.ContainsKey(type))
                 {
                     m_TypeToViewPrefabMap.Add(type, data);
                 }
-                catch (ArgumentException _)
+                else
                 {
                     Debug.LogError($"Duplicate type: {type}");
                 }
             }
+        }
+
+        public override GameObject CreateView<T>()
+        {
+            var prefab = GetViewPrefab(typeof(T));
+            return Instantiate(prefab).gameObject;
+        }
+
+        public override GameObject CreateView<T>(Transform parent)
+        {
+            var prefab = GetViewPrefab(typeof(T));
+            return Instantiate(prefab, parent).gameObject;
+        }
+
+        public override GameObject CreateView<T>(Vector3 position, Quaternion rotation)
+        {
+            var prefab = GetViewPrefab(typeof(T));
+            return Instantiate(prefab, position, rotation).gameObject;
+        }
+
+        public override GameObject CreateView<T>(Vector3 position, Quaternion rotation, Transform parent)
+        {
+            var prefab = GetViewPrefab(typeof(T));
+            return Instantiate(prefab, position, rotation, parent).gameObject;
         }
 
         public TView CreateView(TModel item)

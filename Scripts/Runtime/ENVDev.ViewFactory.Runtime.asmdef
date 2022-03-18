@@ -1,5 +1,5 @@
 {
-    "name": "env.AbstractViewFactory.Runtime",
+    "name": "ENVDev.ViewFactory.Runtime",
     "rootNamespace": "",
     "references": [],
     "includePlatforms": [],
